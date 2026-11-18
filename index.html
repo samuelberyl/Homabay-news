@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOMABAY NEWS 📰🔥 | News za Homabay Leo!</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f5f5f5;color:#111;padding-bottom:80px}
+header{background:#c00;color:white;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
+header b{font-size:18px}
+header button{background:white;color:#c00;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
+.live{background:#111;color:white;padding:10px 16px;display:flex;gap:8px;align-items:center;font-size:13px;overflow:hidden}
+.live b{background:#c00;padding:3px 8px;border-radius:5px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:0.5}}
+.hero{margin:12px 16px;border-radius:18px;overflow:hidden;background:white;box-shadow:0 2px 10px rgba(0,0,0,0.1);cursor:pointer}
+.hero-img{background:linear-gradient(135deg,#0b6e2f,#ffcc00);padding:40px 20px;text-align:center;font-size:60px}
+.hero-text{padding:14px}
+.hero-text b{font-size:17px;line-height:1.3;display:block}
+.hero-text p{font-size:12px;color:#888;margin:6px 0}
+.tabs{display:flex;gap:8px;padding:0 16px;overflow-x:auto}
+.tabs button{background:white;border:1px solid #ddd;padding:9px 16px;border-radius:20px;white-space:nowrap;cursor:pointer;font-weight:bold}
+.tabs button.active{background:#c00;color:white}
+.news-list{padding:12px 16px}
+.news-card{background:white;border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);cursor:pointer;display:flex;gap:12px}
+.news-card .thumb{width:80px;height:80px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+.news-card .info{flex:1}
+.news-card .info b{font-size:14px;line-height:1.3;display:block}
+.news-card .info p{font-size:12px;color:#888;margin:4px 0}
+.news-card .info span{font-size:11px;color:#c00;font-weight:bold}
+.card{background:white;border-radius:16px;padding:16px;margin:0 16px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.card h3{margin-bottom:8px}
+.weather{display:flex;justify-content:space-around;text-align:center;padding:10px 0}
+.weather div b{font-size:18px;display:block}
+.weather div span{font-size:11px;color:#888}
+input{width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;margin:6px 0;outline:none}
+.btn{width:100%;padding:12px;border:none;border-radius:12px;font-weight:bold;cursor:pointer}
+.bottom-nav{position:fixed;bottom:0;left:0;width:100%;background:white;border-top:1px solid #ddd;padding:10px;display:flex;justify-content:space-around;font-size:11px;z-index:30}
+.bottom-nav div{text-align:center;cursor:pointer;color:#888}
+.bottom-nav div.active{color:#c00;font-weight:bold}
+.bottom-nav div span{display:block;font-size:22px}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:99;justify-content:center;align-items:flex-end}
+.modalBox{background:white;width:100%;max-width:500px;border-radius:20px 20px 0 0;padding:20px;max-height:85vh;overflow-y:auto}
+.modalBox button{padding:11px 16px;border-radius:10px;border:none;font-weight:bold;cursor:pointer;margin:5px}
+</style>
+</head>
+<body>
+
+<header><b>📰 HOMABAY NEWS</b><button onclick="showToast('🔔 Notifications ON!')">🔔 Live</button></header>
+
+<div class="live"><b>● LIVE</b><marquee>⚽ Homabay Stars wameshinda 2-1! • ⛪ PEFA Convention 23 Nov! • 🌦️ Weather: Sunny 27°C • 🐟 Samaki bei imeshuka Soko Mjinga! •</marquee></div>
+
+<div class="hero" onclick="openNews('stars')">
+<div class="hero-img">⚽🏆</div>
+<div class="hero-text"><span style="background:#c00;color:white;padding:3px 8px;border-radius:5px;font-size:11px">BREAKING NEWS</span><b>Homabay Stars FC Wameshinda Final! 2-1! Taphy Alifunga Goal ya Ushindi!</b><p>Taphy Samson alifunga goal dakika ya 89! Stadium ililipuka! • 2 hours ago • 1.2K comments</p></div>
+</div>
+
+<div class="tabs">
+<button class="active" onclick="filterNews(this,'all')">🔥 All</button>
+<button onclick="filterNews(this,'sports')">⚽ Sports</button>
+<button onclick="filterNews(this,'church')">⛪ Church</button>
+<button onclick="filterNews(this,'politics')">🏛️ Politics</button>
+<button onclick="filterNews(this,'weather')">🌦️ Weather</button>
+<button onclick="filterNews(this,'business')">💰 Business</button>
+</div>
+
+<div class="news-list" id="newsList">
+<div class="news-card" onclick="openNews('pefa')"><div class="thumb" style="background:#fff0f5">⛪</div><div class="info"><b>PEFA Convention ni 23 Nov - Usikose! Pastor Jack Ayieko Anaongoza</b><p>Convention kubwa Homabay, waimbaji 20, wahubiri 10...</p><span>⛪ CHURCH • 5 hours ago • ❤️ 450</span></div></div>
+<div class="news-card" onclick="openNews('fish')"><div class="thumb" style="background:#e0f7ff">🐟</div><div class="info"><b>Samaki Bei Imeshuka Soko Mjinga! Tilapia Sasa Ksh 200!</b><p>Wavuvi wa Lake Victoria wanasema samaki wameongezeka...</p><span>💰 BUSINESS • 7 hours ago • ❤️ 320</span></div></div>
+<div class="news-card" onclick="openNews('school')"><div class="thumb" style="background:#fff8e0">🏫</div><div class="info"><b>PEFA School Yashika #1 Homabay KCSE 2025 - 98% Pass!</b><p>Taphy Samson alipata A Plain, Favour A Plain...</p><span>🏫 EDUCATION • 9 hours ago • ❤️ 890</span></div></div>
+<div class="news-card" onclick="openNews('weather')"><div class="thumb" style="background:#e0ffe0">🌦️</div><div class="info"><b>Weather Leo: Sunny 27°C, Mvua Kesho? Angalia Forecast!</b><p>Homabay itakuwa sunny leo, mvua kesho asubuhi...</p><span>🌦️ WEATHER • 1 hour ago • ❤️ 120</span></div></div>
+<div class="news-card" onclick="openNews('boda')"><div class="thumb" style="background:#f0e0ff">🛵</div><div class="info"><b>Boda Boda Bei Mpya: Homabay Town → Soko Mjinga Sasa Ksh 50</b><p>Boda riders wamekubaliana bei mpya...</p><span>🛵 TRANSPORT • 12 hours ago • ❤️ 210</span></div></div>
+<div class="news-card" onclick="openNews('wedding')"><div class="thumb" style="background:#ffe0e0">💍</div><div class="info"><b>Harusi Kubwa Homabay: Ryan na Favour? Watu Wanauliza!</b><p>Picha za harusi zime-trend kwa WhatsApp...</p><span>💍 GOSSIP • 3 hours ago • ❤️ 1.5K</span></div></div>
+</div>
+
+<div class="card">
+<h3>🌦️ Weather ya Homabay - Wiki Hii</h3>
+<div class="weather">
+<div><b>☀️</b><b>27°C</b><span>Leo<br>Sunny</span></div>
+<div><b>🌧️</b><b>24°C</b><span>Kesho<br>Rain</span></div>
+<div><b>⛅</b><b>26°C</b><span>Jumatano<br>Cloudy</span></div>
+<div><b>☀️</b><b>28°C</b><span>Alhamisi<br>Sunny</span></div>
+<div><b>☀️</b><b>29°C</b><span>Ijumaa<br>Hot!</span></div>
+</div>
+</div>
+
+<div class="card">
+<h3>📝 Tuma News Yako! - Uwe Reporter!</h3>
+<p style="font-size:13px;color:#666;line-height:1.5">Umeona kitu Homabay? Tuma news, tutaiweka hapa!</p>
+<input type="text" id="newsTitle" placeholder="Title ya news... e.g. Ajali Homabay Town">
+<input type="text" id="newsDesc" placeholder="Eleza kidogo...">
+<button class="btn" style="background:#c00;color:white" onclick="submitNews()">📝 Tuma News →</button>
+</div>
+
+<div class="card">
+<h3>🏆 Trending #1 Homabay</h3>
+<p>1. ⚽ <b>Homabay Stars Wins!</b> - 2.1K shares</p>
+<p>2. 💍 <b>Harusi ya Ryan?</b> - 1.5K shares</p>
+<p>3. ⛪ <b>PEFA Convention</b> - 1.2K shares</p>
+<p>4. 🐟 <b>Samaki Bei Imeshuka</b> - 980 shares</p>
+<button class="btn" style="background:#111;color:white;margin-top:8px" onclick="showToast('🔥 Trending updated!')">See More Trending →</button>
+</div>
+
+<div style="text-align:center;color:#888;font-size:12px;padding:10px">Homabay News • Made by Taphy Samson 🇰🇪<br>News za Homabay, na Watu wa Homabay!</div>
+
+<div class="bottom-nav">
+<div class="active"><span>🏠</span>Home</div>
+<div onclick="filterNews(this,'sports')"><span>⚽</span>Sports</div>
+<div onclick="filterNews(this,'church')"><span>⛪</span>Church</div>
+<div onclick="showToast('🌦️ Weather: Sunny 27°C leo!')"><span>🌦️</span>Weather</div>
+<div onclick="showToast('📝 Tuma news yako hapo juu!')"><span>📝</span>Report</div>
+</div>
+
+<div class="modal" id="modal"><div class="modalBox"><div id="modalContent"></div><button style="background:#333;color:white;width:100%" onclick="closeModal()">Close ✕</button></div></div>
+<div id="toast" style="position:fixed;top:70px;left:50%;transform:translateX(-50%);background:#111;color:white;padding:10px 18px;border-radius:20px;font-weight:bold;font-size:13px;z-index:100;display:none"></div>
+
+<script>
+function showToast(m){ let t=document.getElementById('toast'); t.innerText=m; t.style.display='block'; setTimeout(()=>t.style.display='none',2500); }
+function filterNews(btn,cat){ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); showToast('📰 Showing '+cat+' news!'); }
+function openNews(type){
+  let data={
+    stars:{title:'⚽ Homabay Stars Wameshinda Final! 2-1!', body:'<b>Homabay Stadium ililipuka jana!</b><br><br>Homabay Stars FC wameshinda 2-1 dhidi ya Kendubay FC!<br><br>⚽ <b>Goal 1:</b> Ryan Batel - dakika 23<br>⚽ <b>Goal 2:</b> Taphy Samson - dakika 89 (Winner!)<br><br>Captain Taphy alisema: "Hii ni kwa Homabay yote! Tumefanya kazi ngumu!"<br><br>Next Match: Saturday, Homabay Stadium. Ticket: Ksh 100 tu!<br><br>❤️ 1.2K Likes • 💬 340 Comments • 📲 2.1K Shares'},
+    pefa:{title:'⛪ PEFA Convention ni 23 Nov!', body:'PEFA Convention kubwa inakuja!<br><br>📅 Date: 23 Nov 2026<br>📍 Venue: PEFA Church Homabay<br>👑 Guest: Pastor Jack Ayieko<br>🎤 Waimbaji: 20 choirs<br><br>Usikose! Entry FREE!'},
+    fish:{title:'🐟 Samaki Bei Imeshuka!', body:'Good news kwa wapenda samaki!<br><br>Tilapia sasa Ksh 200 (ilikuwa 300)<br>Omena Ksh 100<br>Dagaa Ksh 80<br><br>Soko Mjinga, Homabay. Fika mapema!'},
+    school:{title:'🏫 PEFA School #1 Homabay!', body:'PEFA School imeongoza KCSE 2025 na 98% pass!<br><br>🥇 Taphy Samson - A Plain<br>🥈 Favour David - A Plain<br>🥉 Ryan Batel - A-<br><br>Congratulations!'},
+    weather:{title:'🌦️ Weather: Sunny 27°C Leo!', body:'Homabay leo ni sunny 27°C.<br>Kesho mvua asubuhi 24°C.<br>Beba mwavuli kesho!'},
+    boda:{title:'🛵 Boda Bei Mpya!', body:'Bei mpya za boda:<br>Homabay Town → Soko Mjinga: Ksh 50<br>Homabay → Makongeni: Ksh 100<br>Homabay → Kendubay: Ksh 250'},
+    wedding:{title:'💍 Harusi Kubwa Homabay?', body:'Picha zime-trend WhatsApp! Ryan na Favour wameonekana na pete? 😂<br><br>Watu wanauliza: Ni kweli au ni content?<br><br>Stay tuned kwa update!'}
+  };
+  let d=data[type]||data.stars;
+  document.getElementById('modalContent').innerHTML='<h2>'+d.title+'</h2><p style="line-height:1.8;margin:12px 0;color:#444">'+d.body+'</p><div style="display:flex;gap:8px"><button style="background:#25D366;color:white;flex:1" onclick="showToast(\'📲 Shared kwa WhatsApp!\')">📲 Share WhatsApp</button><button style="background:#111;color:white;flex:1" onclick="showToast(\'❤️ Umelike news hii!\')">❤️ Like</button></div>';
+  document.getElementById('modal').style.display='flex';
+}
+function submitNews(){
+  let t=document.getElementById('newsTitle').value.trim();
+  if(!t){ alert('Andika title ya news kwanza!'); return; }
+  let list=document.getElementById('newsList');
+  let div=document.createElement('div');
+  div.className='news-card';
+  div.innerHTML='<div class="thumb" style="background:#fff8e0">📰</div><div class="info"><b>'+t+'</b><p>'+(document.getElementById('newsDesc').value||'News kutoka kwa msomaji...')+'</p><span>📰 YOUR NEWS • Just now • ❤️ 0</span></div>';
+  div.onclick=()=>openNews('stars');
+  list.prepend(div);
+  showToast('🎉 News yako imetumwa! Asante Reporter!');
+  document.getElementById('newsTitle').value=''; document.getElementById('newsDesc').value='';
+}
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+</script>
+</body>
+</html>
